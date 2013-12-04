@@ -17,6 +17,7 @@ class users extends db {
 	function reset_db() {
 		$this->clear_db();
 		$this->create_db();
+		return "done";
 	}
 	
     function create_db(){		
@@ -118,7 +119,7 @@ class users extends db {
     }
     
     function clear_db() {
-    	$tables = array("Trip", "Reservation", "FlightLeg", "Airport", "Airplane", "Leg", "Payment");
+    	$tables = array("Leg", "Payment", "Trip", "Reservation", "FlightLeg", "Airport", "Airplane");
 		foreach ($tables as $table) {
             $this->clear_table($table);
         }

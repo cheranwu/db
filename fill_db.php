@@ -4,10 +4,7 @@ session_start();
 include("classes/users.php");
 
 $users = new users();
-
-$blah = $users->clear_db();
-$blah = $users->create_db();
-$blah = $users->fill_database();
+$blah = $users->reset_db();
 
 ?>
 

@@ -1,7 +1,7 @@
 <?php
 //this might take a while to run
 session_start();
-include("classes/users.class.php");
+include("classes/users.php");
 
 $users = new users();
 

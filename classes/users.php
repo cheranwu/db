@@ -10,25 +10,7 @@ class users extends db {
         $this->user_id = $u_id;
     }
 	
-	function modify_vip($set, $key){
-		$db_conflicts = $this->db_conflicts_vip($set, $key); // check for conflicts with the DB
-		
-		if ($db_conflicts == false)
-		{
-			$key = "vip_id = $key";
-			$this->db->AutoExecute("vip", $set, "UPDATE", $key);
-			$modify = true;
-		}
-		else
-		{
-			$modify = false;
-		}
-		return $modify; 
-    }// end modify vip
-	
-	//------------------------------------------------ Delete functions ------------------------------------------------
-	function delete_customers($obj){
-		$sql = "DELETE FROM customers WHERE cid=$obj";
+	function run_sql($sql){
 		$this->db->Execute($sql);
     }
 

@@ -50,7 +50,7 @@ function Delete($table, $id) {
 		}
 	}
 	
-	$user->run_sql_insert("DELETE FROM $table WHERE $keys[$table] = $id;");
+	$user->run_sql_insert("DELETE FROM $table WHERE $keys[$table] = '$id';");
 }
 
 ?>

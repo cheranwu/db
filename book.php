@@ -24,11 +24,7 @@
 					<div class="wrapper under">
 						<div class="cols marg_right1">
 							<span>Depart Date</span>
-							<input type="text" name="depart" value="03.05.2011"  onblur="if(this.value=='') this.value='03.05.2011'" onFocus="if(this.value =='03.05.2011' ) this.value=''">
-						</div>
-						<div class="cols">
-							<span>Return Date</span>
-							<input type="text" name="return" value="03.05.2011"  onblur="if(this.value=='') this.value='03.05.2011'" onFocus="if(this.value =='03.05.2011' ) this.value=''">
+							<input type="text" name="depart" value="2013-12-05"  onblur="if(this.value=='') this.value='12/05/2013'" onFocus="if(this.value =='12/05/2013' ) this.value=''">
 						</div>
 					</div>
 					<span class="right relative"><a href="#" class="button1" onClick="document.getElementById('form_5').submit()"><strong>Search</strong></a></span>

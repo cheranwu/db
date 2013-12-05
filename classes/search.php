@@ -6,20 +6,16 @@ class Search {
     
     var $opts;
     var $depart_routes;
-    var $return_routes;
     var $user;
     var $default_opts;
     
     # params is an array containing
     # e_depart_time: date to depart in epoch time
     # e_return_time: date to return in epoch time(ignored if one way)
-    # passengers: how many passengers
     # org: what airport (id) do you wish to arrive at
     # dest: what airport (id) do you wish to depart from
-    # one_way: is it one way
-    # class: what class of ticket
     public function __construct($params, $user) {
-        $this->default_opts = array('class' => 'coach','passengers' => 1, 'max_results' => 10);
+        $this->default_opts = array('passengers' => 1, 'max_results' => 10);
         $this->user = $user;
         $this->opts = array_merge($this->default_opts, $params);
         $this->route_opts = $this->opts;
@@ -27,13 +23,14 @@ class Search {
 	}
 	
     private function set_routes() {
-        $flights = $this->user->get_flights($this->opts['e_depart_time']);
+		$departDateMin = new DateTime();
+		$departDateMin->setTimestamp($this->opts['e_depart_time'] - 60*60*24*2);
+		$departDateMin = $departDateMin->format('Y-m-d H:i:s');
+		$departDateMax = new DateTime();
+		$departDateMax->setTimestamp($this->opts['e_depart_time'] + 60*60*24*2);
+		$departDateMax = $departDateMax->format('Y-m-d H:i:s');
+        $flights = Flight::getEntries($this->user,"WHERE DepartureTime > \"$departDateMin\" AND DepartureTime < \"$departDateMax\"");
         $this->depart_routes = $this->find_routes($this->opts['org'], $this->opts['dest'], $flights);
-        $this->return_routes = null;
-        if($this->opts['flight'] == 'Round-Trip') {
-            $flights = $this->user->get_flights($this->opts['e_return_time']);
-            $this->return_routes = $this->find_routes($this->opts['dest'], $this->opts['org'], $flights);
-        }
     }
     
 	
@@ -41,15 +38,12 @@ class Search {
         $result = Array();
         $queue = new SplPriorityQueue();
         foreach($flights as $flight) {
-            if($flight['org_id'] == $org) {
+            if($flight->DepartureAirport == $org) {
                 $route = new Route($this->route_opts);
-                $num_seats = Flight::get_open_seats_on_flight($flight['flight_id'], $this->user);
-                $route->add_flight($flight, $num_seats);
+                $route->add_flight($flight);
                 $queue->insert($route, $route->get_joy());
             }
         }
-        
-        //BFS to find all routes that take < 10 hours
         $count = 0;
         while($queue->count() >0 && $count < $this->opts['max_results'])
         {
@@ -60,10 +54,12 @@ class Search {
                 continue;
             }
             foreach($flights as $flight) {
-                if(!array_key_exists($flight['dest_id'], $cur_route->visited) && $flight['org_id'] == $cur_route->get_dest() && $flight['e_depart_time'] > 30*60 + $cur_route->get_arrival_time()) {
+                if(!array_key_exists($flight->ArrivalAirport, $cur_route->visited) &&
+					$flight->DepartureAirport == $cur_route->get_dest() &&
+					new DateTime($flight->DepartureTime) > 30*60 + $cur_route->get_arrival_time()) {
+					
                     $new_route = $cur_route->copy();
-                    $num_seats = Flight::get_open_seats_on_flight($flight['flight_id'], $this->user);
-                    $new_route->add_flight($flight, $num_seats);
+                    $new_route->add_flight($flight);
                     if($new_route->get_trip_time() < 24*60*60 && $new_route->seats >= $this->opts['passengers']) {
                         $queue->insert($new_route,$new_route->get_joy());
                     }

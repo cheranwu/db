@@ -11,8 +11,16 @@ class users extends db {
     }
 	
 	function run_sql($sql){
-		$this->db->Execute($sql);
+		return $this->db->GetArray($sql);
     }
+	
+	function insert($table,$row) {
+		return $this->db->AutoExecute($table, $row, "INSERT");
+	}
+	
+	function update($table, $row, $key) {
+		return $this->db->AutoExecute($table, $row, "UPDATE", $key);
+	}
 
 	function reset_db() {
 		$this->clear_db();
@@ -107,8 +115,6 @@ class users extends db {
 		foreach ($tables as $table) {
             $this->clear_table($table);
         }
-    	
-    	
     }
     
     function clear_table($table) {
@@ -116,6 +122,5 @@ class users extends db {
     	$this->db->Execute($sql);
     }
 }
-
 ?>
 

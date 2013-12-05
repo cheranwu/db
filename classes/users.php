@@ -18,6 +18,15 @@ class users extends db {
 		return $this->db->Execute($sql);
 	}
 	
+	function delete($table, $row) {
+		$sql = "DELETE FROM $table WHERE ";
+		$list = Array();
+		foreach ($row as $key =>$value)
+			$list[] = "$key = '$value'";
+		$sql .= implode(' AND ', $list);
+		$this->run_sql_insert($sql);
+	}
+	
 	function insert($table,$row) {
 		return $this->db->AutoExecute($table, $row, "INSERT");
 	}

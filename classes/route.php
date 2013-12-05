@@ -79,7 +79,7 @@ class Route {
             $id .= $flight->LegNum . "_";
         }
         
-        $res .= "<td><center><input type='radio' name='Depart' value='$id'></center></td>";  // id of flights space delimited 
+        $res .= "<td><center><input type='radio' name='Legs' value='$id'></center></td>";  // id of flights space delimited 
         return $res;
     }
 }

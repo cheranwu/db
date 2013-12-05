@@ -23,8 +23,11 @@ if(count($to_routes) == 0){
   <title>Pick a Flight</title>
 </head>
 <body><div>
-	<form class="flight_selection" action="ConfirmFlight.php" method="POST">
-	
+	<form class="flight_selection" action="confirm_flight.php" method="POST">
+	<div style = "visibility: hidden">
+		<input type="text" name="Depart" value=<?=$_POST['org']?>>
+		<input type="text" name="Dest" value=<?=$_POST['dest']?>>
+	</div>
 	<table border = "1">
 		<tr><td colspan='6'><center><b><?=$a?></b> to <b><?=$b?></b><center></td></tr>
 		<tr>
@@ -52,7 +55,8 @@ if(count($to_routes) == 0){
 	<?php
 		if( $to_routes != null)
 		{
-			?><td><input type='submit' value='Reserve Flight'></td> <?php
+			?>
+			<td><input type='submit' value='Reserve Flight'></td> <?php
 		}
 		else
 			

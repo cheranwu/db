@@ -112,7 +112,7 @@ class users extends db {
 		$sql = "CREATE TABLE IF NOT EXISTS Payment(
 		  TripNum int NOT NULL,
 		  ReservationNum int NOT NULL,
-		  TransactionNum int UNIQUE NOT NULL,
+		  TransactionNum int UNIQUE NOT NULL AUTO_INCREMENT,
 		  PaymentDate datetime NOT NULL,
 		  Account int NOT NULL,
 		  Name varchar(255) NOT NULL,

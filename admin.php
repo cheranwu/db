@@ -15,10 +15,10 @@
 		<span> To add a plane click <a href = "/db/AddPlane.php">here</a></span>
 	</div>
 	<div>
-		<span> Admins who wish to edit the DB click <a href="/db/Delete.php">here</a></span>
+		<span> To delete an entry click <a href="/db/Delete.php">here</a></span>
 	</div>
 	<div>
-		<span> Customer who wish to book a flight click <a href = "/db/Switch.php">here</a></span>
+		<span> To switch an airplane on a flight click <a href = "/db/Switch.php">here</a></span>
 	</div>
 </div>
 </body>

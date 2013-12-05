@@ -1,33 +1,6 @@
 <?php
 include("classes/search.php");
 include("classes/users.php");
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Switch Plane</title>
-</head>
-<body id="page3">
-<div class="main">
-	<section id="content">
-		<form id="form_5" class="form_5" method="post" action="/db/add_flight.php">
-			<div class="row"><span class="left">Flight Leg ID</span>
-				<input type="text" name="flightID">
-				<a href="#" class="help"></a>
-			</div>
-			<div class="row"><span class="left">New Plane ID</span>
-				<input type="text" name="planeID">
-				<a href="#" class="help"></a>
-			</div>
-			<span class="right relative"><a href="#" class="button1" onClick="document.getElementById('form_5').submit()"><strong>Add Plane</strong></a></span>
-		</form>
-	</section>
-</div>
-</body>
-</html>
-
-<?php
 
 function SwitchPlanes($flightID, $planeID) {
 	$user = new users();
@@ -44,5 +17,36 @@ function SwitchPlanes($flightID, $planeID) {
 	$user->run_sql_insert("UPDATE FlightLeg SET AirplaneNum = $planeID, NumSeatsAvailable = $numSeats WHERE LegNum = $flightID;");
 }
 
-// SwitchPlanes(2, 10);
+if(array_key_exists('Secret',$_POST)) {
+	SwitchPlanes($_POST['flightID'], $_POST['planeID']);
+	echo "Successfully Switched Entry";
+}
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Switch Plane</title>
+</head>
+<body id="page3">
+<div class="main">
+	<section id="content">
+		<form id="form_5" class="form_5" method="post" action="/db/Switch.php">
+			<div class="row"><span class="left">Flight Leg ID</span>
+				<input type="text" name="flightID">
+				<a href="#" class="help"></a>
+			</div>
+			<div class="row"><span class="left">New Plane ID</span>
+				<input type="text" name="planeID">
+				<a href="#" class="help"></a>
+			</div>
+			<div style = "visibility: hidden">
+				<input type="text" name="Secret" value="True">
+			</div>
+			<span class="right relative"><a href="#" class="button1" onClick="document.getElementById('form_5').submit()"><strong>Switch Plane</strong></a></span>
+		</form>
+		<div><a href="/db/admin.php"> Go back to admin index </a></div>
+	</section>
+</div>
+</body>
+</html>

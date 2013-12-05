@@ -23,7 +23,7 @@ class users extends db {
     function create_db(){		
         $sql = "CREATE TABLE IF NOT EXISTS Trip
 			(
-			  TripNum int NOT NULL,
+			  TripNum int NOT NULL AUTO_INCREMENT,
 			  Airline varchar(255) NOT NULL,
 			  Price int NOT NULL CHECK (Price > 0),
 			  Departure varchar(255) NOT NULL,
@@ -36,7 +36,7 @@ class users extends db {
         
         $sql = "CREATE TABLE IF NOT EXISTS Reservation
 			(
-			  ReservationNum int NOT NULL,
+			  ReservationNum int NOT NULL AUTO_INCREMENT,
 			  Email varchar(255) NOT NULL,
 			  Name varchar(255) NOT NULL,
 			  Addr varchar(255) NOT NULL,
@@ -55,15 +55,14 @@ class users extends db {
         $this->db->Execute($sql);
         
         $sql = "CREATE TABLE IF NOT EXISTS Airplane(
-		  Id int PRIMARY KEY NOT NULL,
+		  Id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
 		  Type varchar(255) NOT NULL,
 		  NumSeat int NOT NULL CHECK (NumSeat>0)
 		)";
         $this->db->Execute($sql);
         
-        $sql = "CREATE TABLE IF NOT EXISTS FlightLeg
-			(
-			  LegNum int PRIMARY KEY,
+        $sql = "CREATE TABLE IF NOT EXISTS FlightLeg(
+			  LegNum int PRIMARY KEY AUTO_INCREMENT,
 			  NumSeatsAvailable int NOT NULL,
 			  Date datetime NOT NULL,
 			  DepartureAirport varchar(10) NOT NULL,
@@ -78,21 +77,6 @@ class users extends db {
 			  CHECK (DepartureTime < ArrivalTime),
 			  CHECK (NumSeatsAvailable > -1)
 			)";
-        $this->db->Execute($sql);
-        
-        $sql = "CREATE table if not exists flights (
-            flight_id int auto_increment primary key,
-            plane_id int,
-            org_id int,
-            dest_id int,
-            first_class_cost int(4),
-            coach_class_cost int(4),
-            e_depart_time varchar(30),
-            e_arrival_time varchar(30),
-            depart_time varchar(30),
-            arrival_time varchar(30),
-            distance int(5)
-        )";
         $this->db->Execute($sql);
 		
 		$sql = "CREATE TABLE IF NOT EXISTS Leg(

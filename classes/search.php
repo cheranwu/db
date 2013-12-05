@@ -56,7 +56,7 @@ class Search {
             foreach($flights as $flight) {
                 if(!array_key_exists($flight->ArrivalAirport, $cur_route->visited) &&
 					$flight->DepartureAirport == $cur_route->get_dest() &&
-					new DateTime($flight->DepartureTime) > 30*60 + $cur_route->get_arrival_time()) {
+					strtotime($flight->DepartureTime) > 30*60 + $cur_route->get_arrival_time()) {
 					
                     $new_route = $cur_route->copy();
                     $new_route->add_flight($flight);

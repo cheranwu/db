@@ -14,6 +14,10 @@ class users extends db {
 		return $this->db->GetArray($sql);
     }
 	
+	function run_sql_insert($sql) {
+		return $this->db->Execute($sql);
+	}
+	
 	function insert($table,$row) {
 		return $this->db->AutoExecute($table, $row, "INSERT");
 	}
